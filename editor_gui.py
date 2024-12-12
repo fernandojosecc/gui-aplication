@@ -1,54 +1,88 @@
 import tkinter as tk
 from tkinter import messagebox
-from json_manager import JSONManager
+from tkinter import simpledialog
+import json
 from html_generator import HTMLGenerator
 
-class ContentEditorApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Content Editor")
+class EditorGUI:
+    def __init__(self, master):
+        self.master = master
+        self.master.title("Wix 2.0")
+        self.master.geometry("500x600")
+        self.master.configure(bg='#FFD700')  # Match yellow background
 
-        self.json_manager = JSONManager("static/page_content.json")
-        self.html_generator = HTMLGenerator("static/index.html")
+        self.html_generator = HTMLGenerator()
 
-        self.text_area = tk.Text(root, width=50, height=20, wrap=tk.WORD)
-        self.text_area.pack(pady=10)
-
-        self.edit_button = tk.Button(root, text="Edit", command=self.enable_editing)
-        self.edit_button.pack(pady=5)
-
-        self.save_button = tk.Button(root, text="Save", command=self.save_content, state=tk.DISABLED)
-        self.save_button.pack(pady=5)
-
+        # Load initial content
         self.load_content()
 
-    def load_content(self):
-        content = self.json_manager.read_content()
-        self.text_area.insert(1.0, content)
-        self.text_area.configure(state=tk.DISABLED)
+        # Title Label
+        self.title_label = tk.Label(master, text="Title:", font=("Arial", 14), bg='#FFD700', fg='#4B0082')
+        self.title_label.pack(pady=5)
 
-    def enable_editing(self):
-        self.text_area.configure(state=tk.NORMAL)
-        self.save_button.configure(state=tk.NORMAL)
+        self.title_entry = tk.Entry(master, font=("Arial", 14), width=40)
+        self.title_entry.insert(0, self.content['title'])
+        self.title_entry.pack(pady=5)
+
+        # Description Label
+        self.description_label = tk.Label(master, text="Description:", font=("Arial", 14), bg='#FFD700', fg='#4B0082')
+        self.description_label.pack(pady=5)
+
+        self.description_entry = tk.Entry(master, font=("Arial", 14), width=40)
+        self.description_entry.insert(0, self.content['description'])
+        self.description_entry.pack(pady=5)
+
+        # Body Label
+        self.body_label = tk.Label(master, text="Body:", font=("Arial", 14), bg='#FFD700', fg='#4B0082')
+        self.body_label.pack(pady=5)
+
+        self.body_text = tk.Text(master, font=("Arial", 14), width=40, height=10)
+        self.body_text.insert(1.0, self.content['body'])
+        self.body_text.pack(pady=5)
+
+        # Buttons
+        self.save_button = tk.Button(master, text="Save", font=("Arial", 20), bg='#FFFFFF', fg='#4B0082', 
+                                     activebackground='#FFC107', activeforeground='#4B0082', 
+                                     command=self.save_content, relief='flat', borderwidth=5)
+        self.save_button.pack(pady=10)
+
+        self.edit_button = tk.Button(master, text="Edit", font=("Arial", 20), bg='#FFFFFF', fg='#4B0082', 
+                                     activebackground='#FFC107', activeforeground='#4B0082', 
+                                     command=self.enable_editing, relief='flat', borderwidth=5)
+        self.edit_button.pack(pady=5)
+
+        self.disable_editing()
+
+    def load_content(self):
+        try:
+            with open('page_content.json', 'r') as file:
+                self.content = json.load(file)
+        except FileNotFoundError:
+            self.content = {"title": "Default Title", "description": "Default Description", "body": "Default Body"}
 
     def save_content(self):
-        updated_content = self.text_area.get(1.0, tk.END).strip()
+        self.content['title'] = self.title_entry.get()
+        self.content['description'] = self.description_entry.get()
+        self.content['body'] = self.body_text.get(1.0, tk.END).strip()
 
-        if not updated_content:
-            messagebox.showerror("Error", "Content cannot be empty!")
-            return
+        with open('page_content.json', 'w') as file:
+            json.dump(self.content, file, indent=4)
 
-        # Update JSON file
-        self.json_manager.write_content(updated_content)
-
-        # Update HTML file
-        self.html_generator.generate_html(updated_content)
-
-        self.text_area.configure(state=tk.DISABLED)
-        self.save_button.configure(state=tk.DISABLED)
+        self.html_generator.generate_html(self.content)
         messagebox.showinfo("Success", "Content saved successfully!")
+        self.disable_editing()
+
+    def enable_editing(self):
+        self.title_entry.config(state='normal')
+        self.description_entry.config(state='normal')
+        self.body_text.config(state='normal')
+
+    def disable_editing(self):
+        self.title_entry.config(state='disabled')
+        self.description_entry.config(state='disabled')
+        self.body_text.config(state='disabled')
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = ContentEditorApp(root)
+    app = EditorGUI(root)
     root.mainloop()
