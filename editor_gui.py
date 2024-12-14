@@ -8,7 +8,7 @@ class EditorGUI:
         self.master = master
         self.master.title("Wix 2.0")
         self.master.geometry("500x600")
-        self.master.configure(bg='#FFD700')  # Match yellow background
+        self.master.configure(bg='#FFD700') 
 
         self.html_generator = HTMLGenerator()
 
