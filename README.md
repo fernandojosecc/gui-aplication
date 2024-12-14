@@ -10,6 +10,7 @@ This is a solution for a final project in the Programming with Python course. It
 - [Overview](#overview)
   - [Screenshot](#screenshot)
   - [Features](#features)
+  - [Links](#links)
 - [How It Works](#how-it-works)
   - [Structure](#structure)
   - [Technologies Used](#technologies-used)
@@ -41,6 +42,11 @@ This is a solution for a final project in the Programming with Python course. It
 
 ---
 
+### Links  
+- **Repository URL**: [Repository GUI Program](https://github.com/fernandojosecc/gui-aplication)  
+- **Style Repository URL**: [Blog preview card](https://github.com/fernandojosecc/blog-preview-card)  
+
+---
 ## How It Works
 
 ### Structure
