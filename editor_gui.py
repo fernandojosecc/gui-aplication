@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox
-from tkinter import simpledialog
 import json
 from html_generator import HTMLGenerator
 
@@ -17,7 +16,7 @@ class EditorGUI:
         self.load_content()
 
         # Title Label
-        self.title_label = tk.Label(master, text="Title:", font=("Arial", 14), bg='#FFD700', fg='#4B0082')
+        self.title_label = tk.Label(master, text="Title:", font=("Arial", 14), bg='#FFD700', fg='#111111')
         self.title_label.pack(pady=5)
 
         self.title_entry = tk.Entry(master, font=("Arial", 14), width=40)
@@ -25,7 +24,7 @@ class EditorGUI:
         self.title_entry.pack(pady=5)
 
         # Description Label
-        self.description_label = tk.Label(master, text="Description:", font=("Arial", 14), bg='#FFD700', fg='#4B0082')
+        self.description_label = tk.Label(master, text="Description:", font=("Arial", 14), bg='#FFD700', fg='#111111')
         self.description_label.pack(pady=5)
 
         self.description_entry = tk.Entry(master, font=("Arial", 14), width=40)
@@ -33,7 +32,7 @@ class EditorGUI:
         self.description_entry.pack(pady=5)
 
         # Body Label
-        self.body_label = tk.Label(master, text="Body:", font=("Arial", 14), bg='#FFD700', fg='#4B0082')
+        self.body_label = tk.Label(master, text="Body:", font=("Arial", 14), bg='#FFD700', fg='#111111')
         self.body_label.pack(pady=5)
 
         self.body_text = tk.Text(master, font=("Arial", 14), width=40, height=10)
@@ -41,13 +40,13 @@ class EditorGUI:
         self.body_text.pack(pady=5)
 
         # Buttons
-        self.save_button = tk.Button(master, text="Save", font=("Arial", 20), bg='#FFFFFF', fg='#4B0082', 
-                                     activebackground='#FFC107', activeforeground='#4B0082', 
+        self.save_button = tk.Button(master, text="Save", font=("Arial", 12), bg='#FFFFFF', fg='#111111', width=40,
+                                     activebackground='#FFC107', activeforeground='#111111', 
                                      command=self.save_content, relief='flat', borderwidth=5)
         self.save_button.pack(pady=10)
 
-        self.edit_button = tk.Button(master, text="Edit", font=("Arial", 20), bg='#FFFFFF', fg='#4B0082', 
-                                     activebackground='#FFC107', activeforeground='#4B0082', 
+        self.edit_button = tk.Button(master, text="Edit", font=("Arial", 12), bg='#FFFFFF', fg='#111111', width=40, 
+                                     activebackground='#FFC107', activeforeground='#111111', 
                                      command=self.enable_editing, relief='flat', borderwidth=5)
         self.edit_button.pack(pady=5)
 
